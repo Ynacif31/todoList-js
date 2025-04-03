@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-require('dotenv').config();
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 async function connectToDatabase() {
     try {
@@ -10,8 +12,8 @@ async function connectToDatabase() {
         console.log('🟢 Conectado ao MongoDB com sucesso!');
     } catch (error) {
         console.error('🔴 Erro ao conectar ao MongoDB:', error);
-        process.exit(1); // Encerra o app se a conexão falhar
+        process.exit(1);
     }
 }
 
-module.exports = connectToDatabase;
+export default connectToDatabase;

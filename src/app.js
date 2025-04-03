@@ -1,17 +1,27 @@
-const express = require('express');
-const connectToDatabase = require('./config/db');
-const userRoutes = require('./routes/userRoutes');
-require('dotenv').config();
+import express from 'express';
+import { json } from 'express';
+import connectToDatabase from './config/db.js';  // Adicione a extensão .js
+import userRoutes from './routes/userRoutes.js';  // Adicione a extensão .js
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
 // Conectando ao banco de dados
 connectToDatabase();
 
-// Middleware para interpretar JSON (ESSENCIAL)
-app.use(express.json());
+// Middleware para interpretar JSON
+app.use(json());
 
-// Usando as rotas de usuário
+// Rotas
 app.use('/api', userRoutes);
 
-module.exports = app;
+// Exporte tanto o app quanto o listen
+export const startServer = (port) => {
+  return app.listen(port, () => {
+    console.log(`✅ Servidor rodando em http://localhost:${port}`);
+  });
+};
+
+export default app;
