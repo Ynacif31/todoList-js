@@ -1,1 +1,5 @@
-.env
+# Ignorar a pasta node_modules (common em projetos Node.js)
+node_modules/
+
+# Ignora TODOS os arquivos .env (incluindo .env.local, .env.development, etc.)
+.env*
