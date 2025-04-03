@@ -1,5 +1,8 @@
 import User from '../models/User.js';
 import { hash } from 'bcrypt';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+dotenv.config();
 
 export async function createUser(userData) {
     const { name, email, password } = userData;
@@ -18,4 +21,16 @@ export async function createUser(userData) {
     await newUser.save();
 
     return newUser; 
+}
+
+export async function getUserById(userId) {
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw new Error('ID inválido');
+    }
+    
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new Error('Usuário não encontrado');
+    }
+    return user;
 }
