@@ -55,3 +55,27 @@ export async function getAllUsers() {
         throw new Error('Falha ao recuperar usuários');
     }
 }
+
+export async function updateUsers(userData) {
+    const { id, name, email, password } = userData;
+    if (typeof id !== 'string' || !mongoose.Types.ObjectId.isValid(id)) {
+        throw new Error('ID inválido');
+    }
+    if (!name || !email || !password) {
+        throw new Error('Todos os campos são obrigatórios');
+    }
+    
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    userData.name = name;
+    userData.email = email;
+    userData.password = hashedPassword;
+
+    try {
+        await userData.save();
+    } catch (error) {
+        console.error('Erro ao atualizar usuário:', error);
+        throw new Error('Falha ao atualizar usuário');
+    }
+    return userData;
+}
